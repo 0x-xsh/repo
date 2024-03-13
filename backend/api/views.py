@@ -161,21 +161,21 @@ class SubmitTicket(APIView):
         if serializer.is_valid():
             ticket.state = 'closed'
             
-            # Generate new file name
-            submitter_first_name = request.user.first_name
-            submitter_last_name = request.user.last_name
             
+          
             
             # Assign new file name to ticket
             file = request.FILES.get('file')
             if file:
                 file_name = f"ticket_number_{ticket_id}.zip"
                 
-                ticket.file.save(file_name, file)
+                ticket.file.name = file_name
+                
             
             notes = serializer.validated_data.get('notes', None)
             if notes:
                 ticket.notes = notes
+            
             
             ticket.save()
             return Response(serializer.data)

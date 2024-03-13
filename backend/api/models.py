@@ -16,11 +16,11 @@ class Assistant(AbstractUser):
 class Ticket(models.Model):
     title = models.CharField(max_length = 100)
     description = models.CharField(max_length = 100)
-    notes = models.CharField(max_length = 100)
-    file = models.FileField(null=True,)
+    notes = models.CharField(max_length = 100, blank = True)
+    file = models.FileField(null=True, blank = True)
     deadline = models.DateField()
-    created_by = models.ForeignKey(Assistant, on_delete = models.CASCADE, related_name = 'created_by', null=True)
-    assigned_to = models.ForeignKey(Assistant, on_delete = models.CASCADE, related_name = 'assigned_to', null=True)
+    created_by = models.ForeignKey(Assistant, on_delete = models.CASCADE, related_name = 'created_by', null=True, blank = True)
+    assigned_to = models.ForeignKey(Assistant, on_delete = models.CASCADE, related_name = 'assigned_to', null=True, blank = True)
     
     STATE_CHOICES = [
         ('open', 'Open'),
