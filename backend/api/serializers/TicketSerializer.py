@@ -14,7 +14,7 @@ class SubmitTicketSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ['title', 'description', 'deadline']
+        fields = ['title', 'description', 'deadline', 'state']
 
 
 

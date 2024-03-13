@@ -82,38 +82,38 @@ class CreateTicketAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
+
 class TicketListView(APIView):
     authentication_classes = [SessionAuthentication]
 
     def get(self, request, format=None):
-        
         current_user = request.user
-       
+
+        
+        tickets = Ticket.objects.all()
+        serializer = FrViewTicketSerializer
         if IsDZUser().has_permission(request):
             
-            tickets = Ticket.objects.filter(Q(state='open') | Q(assigned_to=current_user))
-            serializer = AllTicketSerializer(tickets, many=True)
-            return Response(serializer.data)
-            
-        elif IsFRUser().has_permission(request):
-            tickets = Ticket.objects.all()
+            tickets = tickets.filter(Q(state='open') | Q(assigned_to=current_user))
+            serializer = TicketSerializer
+        
+        closed_tickets = [ticket for ticket in tickets if ticket.state == 'closed']
+        progress_tickets = [ticket for ticket in tickets if ticket.state == 'in_progress']
+        open_tickets = [ticket for ticket in tickets if ticket.state == 'open']
 
-            closed_tickets = [ticket for ticket in tickets if ticket.state == 'closed']
-            
-            progress_tickets = [ticket for ticket in tickets if ticket.state == 'in_progress']
-            
-            open_tickets = [ticket for ticket in tickets if ticket.state == 'open']
-            
-            
-            closed_tickets_serialzier = FrViewTicketSerializer(closed_tickets, many=True)
-            open_tickets_serialzier = FrViewTicketSerializer(open_tickets, many=True)
-            progress_tickets_serialzier = FrViewTicketSerializer(progress_tickets, many=True)
-            
-            
-            return Response({'open_tickets' : open_tickets_serialzier.data, 'closed_tickets' : closed_tickets_serialzier.data, 'in_progress_tickets' : progress_tickets_serialzier.data})
-            
-        else:
-            return Response("You don't have permission to access this resource.", status=status.HTTP_403_FORBIDDEN)
+
+        
+        closed_tickets_serializer = serializer(closed_tickets, many=True)
+        open_tickets_serializer = serializer(open_tickets, many=True)
+        progress_tickets_serializer = serializer(progress_tickets, many=True)
+
+        
+        return Response({
+            'open_tickets': open_tickets_serializer.data,
+            'closed_tickets': closed_tickets_serializer.data,
+            'in_progress_tickets': progress_tickets_serializer.data
+        })
+
 
 
 class AssignTicket(APIView):
@@ -164,7 +164,7 @@ class SubmitTicket(APIView):
             
           
             
-            # Assign new file name to ticket
+            
             file = request.FILES.get('file')
             if file:
                 file_name = f"ticket_number_{ticket_id}.zip"
@@ -182,5 +182,8 @@ class SubmitTicket(APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
     
+
+
+
 
 
