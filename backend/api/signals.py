@@ -9,7 +9,7 @@ from .models import Ticket, Notification
 def create_notification(sender, instance, created, **kwargs):
     if not created and instance.state == 'closed':
         
-        message = f"Ticket '{instance.title}' has been submitted."
+        message = f"Le Ticket '{instance.title}' est soumis."
         
         Notification.objects.create(assistant=instance.created_by, message=message)
         
