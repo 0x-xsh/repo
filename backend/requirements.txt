@@ -83,3 +83,4 @@ yarg==0.1.9
 zope.interface==6.2
 dj-database-url
 gunicorn
+psycopg2
