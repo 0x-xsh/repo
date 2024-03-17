@@ -2,11 +2,15 @@ from rest_framework import serializers
 
 from api.models import Ticket
 
-
 class SubmitTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ['notes', 'file']
+        # Specify additional validation rules
+        extra_kwargs = {
+            'notes': {'required': True},
+            'file': {'required': True}
+        }
 
     
 
@@ -14,10 +18,14 @@ class SubmitTicketSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ['title', 'description', 'deadline', 'state']
+        fields = ['id', 'title', 'description', 'deadline', 'state']
 
 
 
+class CreateTicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['title', 'description', 'deadline']
 
 
 class FrViewTicketSerializer(serializers.ModelSerializer):

@@ -3,7 +3,7 @@ import json
 
 class NotificationConsumer(WebsocketConsumer):
     def connect(self):
-        print('hello')
+        
         self.channel_layer.group_add('12', self.channel_name)
         self.accept()
 

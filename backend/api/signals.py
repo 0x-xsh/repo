@@ -1,4 +1,4 @@
-# signals.py
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from channels.layers import get_channel_layer
@@ -9,18 +9,18 @@ from .models import Ticket, Notification
 def create_notification(sender, instance, created, **kwargs):
     if not created and instance.state == 'closed':
         
-        message = f"Ticket '{instance.title} {instance.id}' has been submitted."
-        # Save notification to the database
+        message = f"Ticket '{instance.title}' has been submitted."
+        
         Notification.objects.create(assistant=instance.created_by, message=message)
-        # Send notification to WebSocket consumers
-        # channel_layer = get_channel_layer()
+        
+        channel_layer = get_channel_layer()
         
         
-        # async_to_sync(channel_layer.group_send)(
-        #     '12',
-        #     {
-        #         'type': 'notify_user',
-        #         'message': 'msg'
-        #     }
-        # )
+        async_to_sync(channel_layer.group_send)(
+            instance.created_by.id,
+            {
+                'type': 'notify_user',
+                'message': 'msg'
+            }
+        )
         
