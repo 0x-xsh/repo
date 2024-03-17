@@ -29,14 +29,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 class SignupView(APIView):
     def post(self, request):
-        
+        if Assistant.objects.filter(username=validated_data['username']).exists():
+                return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
             
             validated_data = serializer.validated_data
             
-            if Assistant.objects.filter(username=validated_data['username']).exists():
-                return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            
 
             serializer.save()
             return Response({'message': 'Signup successful'}, status=status.HTTP_201_CREATED)
