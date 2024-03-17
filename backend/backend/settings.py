@@ -117,6 +117,8 @@ DATABASES = {
     }
 }
 
+# postgres://ticketdb_render_user:4C6GU4V8j57muzOBTCiRYhmaGT2OXWec@dpg-cnrc06sf7o1s73cmvpv0-a.frankfurt-postgres.render.com/ticketdb_render
+
 AUTH_USER_MODEL = "api.Assistant" 
 
 
