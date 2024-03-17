@@ -194,7 +194,7 @@ class SubmitTicket(APIView):
 
 class NotificationView(APIView):
     
-    permission_classes = [IsAuthenticated]  
+    permission_classes = [IsFRUser]  
     authentication_classes = [JWTAuthentication]  
     
     def get(self, request):
@@ -204,5 +204,28 @@ class NotificationView(APIView):
             notifications = Notification.objects.filter(assistant_id=user_id)
             serializer = NotificationSerializer(notifications, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+
+
+class MarkNotificationsOpened(APIView):
+    permission_classes = [IsFRUser]  
+    authentication_classes = [JWTAuthentication]  
+    
+    def put(self, request):
+        try:
+            notification_ids = request.data.get('notification_ids', [])
+            
+            # Fetch notifications with these IDs
+            notifications = Notification.objects.filter(id__in=notification_ids)
+            
+            # Update each notification's opened attribute to True
+            for notification in notifications:
+                notification.opened = True
+                notification.save()
+            
+            return Response({"message": "Notifications marked as opened successfully."}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
