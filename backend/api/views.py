@@ -169,10 +169,6 @@ class SubmitTicket(APIView):
         if serializer.is_valid():
             ticket.state = 'closed'
             
-            
-          
-            
-            
             file = request.FILES.get('file')
             if file:
                 file_name = f"ticket_number_{ticket_id}.zip"
