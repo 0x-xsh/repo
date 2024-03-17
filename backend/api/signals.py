@@ -13,14 +13,14 @@ def create_notification(sender, instance, created, **kwargs):
         
         Notification.objects.create(assistant=instance.created_by, message=message)
         
-        channel_layer = get_channel_layer()
+        # channel_layer = get_channel_layer()
         
         
-        async_to_sync(channel_layer.group_send)(
-            instance.created_by.id,
-            {
-                'type': 'notify_user',
-                'message': 'msg'
-            }
-        )
+        # async_to_sync(channel_layer.group_send)(
+        #     instance.created_by.id,
+        #     {
+        #         'type': 'notify_user',
+        #         'message': 'msg'
+        #     }
+        # )
         
