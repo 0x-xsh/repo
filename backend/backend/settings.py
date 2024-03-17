@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -117,7 +118,11 @@ DATABASES = {
     }
 }
 
-# postgres://ticketdb_render_user:4C6GU4V8j57muzOBTCiRYhmaGT2OXWec@dpg-cnrc06sf7o1s73cmvpv0-a.frankfurt-postgres.render.com/ticketdb_render
+database_url = os.environ.get('DATABASE_URL')
+
+DATABASES['default'] = dj_database_url.parse(database_url)
+
+
 
 AUTH_USER_MODEL = "api.Assistant" 
 
