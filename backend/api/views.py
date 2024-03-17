@@ -60,20 +60,6 @@ class SigninView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
 class CreateTicketAPIView(APIView):
     
     authentication_classes = [JWTAuthentication]
@@ -117,7 +103,7 @@ class TicketListView(APIView):
             
             tickets = tickets.filter(Q(state='open') | Q(assigned_to=current_user))
             serializer = TicketSerializer
-            print('dz')
+            
         
         closed_tickets = [ticket for ticket in tickets if ticket.state == 'closed']
         progress_tickets = [ticket for ticket in tickets if ticket.state == 'in_progress']
