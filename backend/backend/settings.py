@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True if os.environ.get('DEBUG') == 'True' else False
 
 
-ALLOWED_HOSTS = ['ticketing-frontend.onrender.com'] 
+ALLOWED_HOSTS = ['*'] 
 
 
 # Application definition
