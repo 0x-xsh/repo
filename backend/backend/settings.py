@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True if os.environ.get('DEBUG') == 'True' else False
 
 
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = ['ticketing-frontend.onrender.com'] 
 
 
 # Application definition
@@ -81,9 +81,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:5173',
-# ]
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 

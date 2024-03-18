@@ -5,7 +5,10 @@ from rest_framework_simplejwt.views import (
     
     TokenRefreshView,
 )
-from api.views import AssignTicket, CreateTicketAPIView, DeleteTicketAPIView, MarkNotificationsOpened, NotificationView, SigninView, SignupView, SubmitTicket, TicketListView
+
+from api.views.auth import SigninView, SignupView
+from api.views.notifications import MarkNotificationsOpened, NotificationView
+from api.views.tickets import AssignTicket, CreateTicketAPIView, SubmitTicket, TicketListView
 
 urlpatterns = [
     
@@ -13,7 +16,6 @@ urlpatterns = [
     path('signin',SigninView.as_view(), name='login'),
     path('signup', SignupView.as_view(), name='signup'),
     path('create-ticket', CreateTicketAPIView.as_view(), name='create-ticket'),
-    path('delete-ticket', DeleteTicketAPIView.as_view(), name='delete-ticket'),
     path('tickets',  TicketListView.as_view(), name='ticket-list'),
     path('assign-ticket',  AssignTicket.as_view(), name='assign-ticket'),
     path('submit-ticket',  SubmitTicket.as_view(), name='submit-ticket'),
